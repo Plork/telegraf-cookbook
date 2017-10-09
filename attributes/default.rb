@@ -51,7 +51,7 @@ default['telegraf']['config'] = {
 
 default['telegraf']['include_repository'] = true
 
-default['telegraf']['chocolatey_source'] = ''
+default['telegraf']['chocolatey_source'] = 'https://www.chocolatey.org/api/v2/'
 
 default['telegraf']['outputs'] = {}
 
