@@ -174,7 +174,6 @@ action :delete do
   else
     package 'telegraf' do
       action :remove
-      installer_type :custom
     end
   end
 end
