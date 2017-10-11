@@ -57,7 +57,7 @@ else
 
   %w(telegraf.conf telegraf.d/default_outputs.conf).each do |c|
     describe file("#{conf_dir}/#{c}") do
-      it { should be_file }   
+      it { should be_file }
       it { should be_grouped_into 'telegraf' }
       its('owner') { should eq 'root' }
       its('mode') { should cmp '0644' }

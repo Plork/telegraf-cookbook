@@ -112,13 +112,13 @@ action :create do
 
       file_name = "telegraf-#{new_resource.install_version}_windows_amd64.zip"
       remote_file "#{Chef::Config[:file_cache_path]}/#{file_name}" do
-        source "#{node['telegraf']['download_urls']['debian']}/#{file_name}"
+        source "#{node['telegraf']['download_urls']['windows']}/#{file_name}"
         checksum node['telegraf']['shasums']['windows']
         action :create
       end
 
       windows_zipfile ENV['ProgramW6432'] do
-        source "#{node['telegraf']['download_urls']['windows']}/#{file_name}"
+        source "#{Chef::Config[:file_cache_path]}/#{file_name}"
         not_if { ::File.exist?("#{ENV['ProgramW6432']}\\telegraf\\telegraf.exe") }
         action :unzip
       end
