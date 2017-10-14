@@ -2,9 +2,9 @@ require 'chefspec'
 require 'chefspec/berkshelf'
 
 RSpec.configure do |config|
-    config.extend(ChefSpec::Cacher)
-  
-    config.color = true               # Use color in STDOUT
-    config.formatter = :documentation # Use the specified formatter
-    config.log_level = :error         # Avoid deprecation notice SPAM
-  end
+  config.extend(ChefSpec::Cacher)
+
+  config.color = true               # Use color in STDOUT
+  config.formatter = :documentation # Use the specified formatter
+  config.log_level = :error         # Avoid deprecation notice SPAM
+end
