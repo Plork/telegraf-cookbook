@@ -165,11 +165,11 @@ action :delete do
         source "#{ENV['ProgramW6432']}\\telegraf\\telegraf.exe"
         options '--service uninstall'
         installer_type :custom
-        action :delete
+        action :remove
       end
 
       directory "#{ENV['ProgramW6432']}\\telegraf" do
-        action :remove
+        action :delete
       end
     end
   else
