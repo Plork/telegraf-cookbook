@@ -24,6 +24,7 @@ property :install_type, String, default: 'package'
 
 default_action :create
 
+# rubocop:disable Metrics/BlockLength
 action :create do
   case new_resource.install_type
   when 'package'
@@ -129,6 +130,7 @@ action :create do
 
       windows_package 'telegraf' do
         source "#{ENV['ProgramW6432']}\\telegraf\\telegraf.exe"
+        # rubocop:disable Metrics/LineLength
         options "--service install --config-directory \"#{ENV['ProgramW6432']}\\telegraf\\telegraf.d\""
         # rubocop:enable Metrics/LineLength
         installer_type :custom
@@ -147,6 +149,7 @@ action :create do
     action [:enable, :start]
   end
 end
+# rubocop:enable Metrics/BlockLength
 
 action :delete do
   service "telegraf_#{new_resource.name}" do
@@ -164,7 +167,7 @@ action :delete do
         source "#{ENV['ProgramW6432']}\\telegraf\\telegraf.exe"
         options '--service uninstall'
         installer_type :custom
-        action :remove
+        action :delete
       end
 
       directory "#{ENV['ProgramW6432']}\\telegraf" do
