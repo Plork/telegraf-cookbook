@@ -26,7 +26,6 @@ property :path, String, default: node['telegraf']['config_file_path']
 
 default_action :create
 
-# rubocop:disable Metrics/BlockLength
 action :create do
   chef_gem 'toml-rb' do
     source node['telegraf']['rubysource']
@@ -84,4 +83,3 @@ action :create do
     notifies :restart, "service[telegraf_#{new_resource.name}]", :delayed
   end
 end
-# rubocop:enable Metrics/BlockLength

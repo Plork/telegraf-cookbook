@@ -27,7 +27,6 @@ property :rootonly, kind_of: [TrueClass, FalseClass], default: false
 
 default_action :create
 
-# rubocop:disable Metrics/BlockLength
 action :create do
   directory path do
     recursive true
@@ -61,7 +60,6 @@ action :create do
     notifies :restart, "service[telegraf_#{new_resource.service_name}]", :delayed if reload
   end
 end
-# rubocop:enable Metrics/BlockLength
 
 action :delete do
   file "#{new_resource.path}/#{new_resource.name}_inputs.conf" do

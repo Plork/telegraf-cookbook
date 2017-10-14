@@ -24,7 +24,6 @@ property :install_type, String, default: 'package'
 
 default_action :create
 
-# rubocop:disable Metrics/BlockLength
 action :create do
   case new_resource.install_type
   when 'package'
@@ -149,7 +148,6 @@ action :create do
     action [:enable, :start]
   end
 end
-# rubocop:enable Metrics/BlockLength
 
 action :delete do
   service "telegraf_#{new_resource.name}" do
