@@ -26,6 +26,7 @@ property :reload, kind_of: [TrueClass, FalseClass], default: true
 
 default_action :create
 
+# rubocop:disable Metrics/BlockLength
 action :create do
   directory path do
     recursive true
@@ -82,6 +83,7 @@ action :create do
     notifies :restart, "service[telegraf_#{new_resource.service_name}]", :delayed if reload
   end
 end
+# rubocop:enable Metrics/BlockLength
 
 action :delete do
   file "#{path}/#{name}_perf_counters.conf" do
