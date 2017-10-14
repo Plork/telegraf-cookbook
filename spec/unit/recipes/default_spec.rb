@@ -23,7 +23,7 @@ describe 'telegraf::default' do
     'centos' => ['6.6', '7.0'],
     'ubuntu' => ['14.04', '15.04'],
     'amazon' => ['2015.09'],
-    'windows' => ['2012r2']
+    'windows' => ['2012r2'],
   }
 
   platforms.each do |platform, versions|
