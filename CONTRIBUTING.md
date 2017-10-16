@@ -1,14 +1,12 @@
-# Contributing to Chef Managed Community Cookbooks
+# Contributing to the telegraf Community Cookbook
 
 We're glad you want to contribute to telegraf cookbook! The first step is the desire to improve the project.
 
 ## Submitting Issues
 
-Not every contribution comes in the form of code. Submitting, confirming, and triaging issues is an important task for any project. At Chef we use GitHub to track all project issues.
+Not every contribution comes in the form of code. Submitting, confirming, and triaging issues is an important task for any project.
 
-All of our cookbooks can be found in our [GitHub organization](https://github.com/chef-client/). All cookbooks include GitHub issue templates to help gather information needed for a thorough review.
-
-We ask you not to submit security concerns via GitHub. For details on submitting potential security issues please see <https://www.chef.io/security/>
+We ask you not to submit security concerns via GitHub.
 
 ## Contribution Process
 

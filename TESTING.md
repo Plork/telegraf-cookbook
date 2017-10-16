@@ -4,7 +4,7 @@ This document describes the process for testing Chef community cookbooks using C
 
 ## Testing Prerequisites
 
-A working ChefDK installation set as your system's default ruby. ChefDK can be downloaded at <https://downloads.chef.io/chef-dk/>
+A working ChefDK installation preferably set as your system's default ruby. ChefDK can be downloaded at <https://downloads.chef.io/chef-dk/>
 
 Hashicorp's [Vagrant](https://www.vagrantup.com/downloads.html) and Oracle's [Virtualbox](https://www.virtualbox.org/wiki/Downloads) for integration testing.
 
@@ -26,7 +26,7 @@ chef exec bundle update
 
 ## Local Delivery
 
-For consistent testing across the 100+ Chef managed community cookbooks we use the Delivery CLI tool and the local delivery mode. This allows us to remotely host a single [Delivery project.toml file](https://github.com/chef-cookbooks/community_cookbook_tools/blob/master/delivery/project.toml) that applies to all of our cookbooks.
+For consistent testing across the  cookbook we use the Delivery CLI tool and the local delivery mode. This allows us to remotely host a single [Delivery project.toml file](https://github.com/chef-cookbooks/community_cookbook_tools/blob/master/delivery/project.toml) that applies to all community cookbooks.
 
 Delivery defines testing in phases and cookbooks utilize `lint`, `syntax`, and `unit` phases.
 
