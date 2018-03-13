@@ -13,7 +13,7 @@ We ask you not to submit security concerns via GitHub.
 We have a 3 step process for contributions:
 
 1. Commit changes to a git branch.
-2. Create a GitHub Pull Request for your change, following the instructions in the pull request template.
+2. Create a GitHub Pull Request for your change.
 3. Perform a [Code Review](#code-review-process) with the cookbook maintainers on the pull request.
 
 ### Pull Request Requirements
@@ -60,5 +60,5 @@ information above.
 
 Please do not update the CHANGELOG.md for a new version. Not all
 changes to a cookbook may be merged and released in the same versions.
-Sander van Zoest will update the CHANGELOG.md when releasing a new version of
+We will update the CHANGELOG.md when releasing a new version of
 the cookbook.
