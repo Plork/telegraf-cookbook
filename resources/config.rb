@@ -17,15 +17,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-property :name, String, name_property: true
 property :config, Hash, default: {}
 property :outputs, Hash, default: {}
 property :inputs, Hash, default: {}
+property :perf_counters, Hash, default: {}
 property :path, String, default: node['telegraf']['config_file_path']
 
 default_action :create
 
-# rubocop:disable Metrics/BlockLength
 action :create do
   chef_gem 'toml-rb' do
     source node['telegraf']['rubysource']
@@ -43,17 +42,19 @@ action :create do
     action :nothing
   end
 
-  file path do
-    content TomlRB.dump(config)
-    user 'root'
-    group 'telegraf'
-    mode '0644'
+  file new_resource.path do
+    content TomlRB.dump(new_resource.config)
+    unless platform_family? 'windows'
+      user 'root'
+      group 'telegraf'
+      mode '0644'
+    end
     notifies :restart, "service[telegraf_#{new_resource.name}]", :delayed
   end
 
-  telegraf_d = ::File.dirname(path) + '/telegraf.d'
+  telegraf_d = ::File.dirname(new_resource.path) + '/telegraf.d'
 
-  telegraf_outputs name do
+  telegraf_outputs new_resource.name do
     path telegraf_d
     outputs new_resource.outputs
     reload false
@@ -62,7 +63,7 @@ action :create do
     notifies :restart, "service[telegraf_#{new_resource.name}]", :delayed
   end
 
-  telegraf_inputs name do
+  telegraf_inputs new_resource.name do
     path telegraf_d
     inputs new_resource.inputs
     reload false
@@ -70,5 +71,14 @@ action :create do
     not_if { new_resource.inputs.empty? }
     notifies :restart, "service[telegraf_#{new_resource.name}]", :delayed
   end
+
+  telegraf_perf_counters new_resource.name do
+    path telegraf_d
+    perf_counters new_resource.perf_counters
+    reload false
+    action :create
+    not_if { new_resource.perf_counters.empty? }
+    only_if { platform_family?('windows') }
+    notifies :restart, "service[telegraf_#{new_resource.name}]", :delayed
+  end
 end
-# rubocop:enable Metrics/BlockLength

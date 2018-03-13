@@ -1,15 +1,21 @@
 name 'telegraf'
 maintainer 'E Camden Fisher'
 maintainer_email 'camden@northpage.com'
-license 'apache2'
+license 'Apache-2.0'
 description 'Installs/Configures telegraf'
 long_description 'Installs/Configures telegraf'
-version '0.7.1'
+version '0.9.2'
 source_url 'https://github.com/NorthPage/telegraf-cookbook'
 issues_url 'https://github.com/NorthPage/telegraf-cookbook/issues'
-supports 'centos'
-supports 'ubuntu'
-supports 'amazon'
 
-depends 'yum'
+chef_version '>= 12.5' if respond_to?(:chef_version)
+
+%w(centos ubuntu amazon windows mac_os_x).each do |os|
+  supports os
+end
+
 depends 'apt'
+depends 'chocolatey'
+depends 'homebrew'
+depends 'windows'
+depends 'yum'

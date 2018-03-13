@@ -1,7 +1,7 @@
-# resources/outputs.rb
+# resources/plugins.rb
 #
 # Cookbook Name:: telegraf
-# Resource:: outputs
+# Resource:: perf_counters
 #
 # Copyright 2015-2017 NorthPage
 #
@@ -17,11 +17,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-property :outputs, Hash, required: true
+property :perf_counters, Hash, required: true
 property :path, String, default: ::File.dirname(node['telegraf']['config_file_path']) + '/telegraf.d'
 property :service_name, String, default: 'default'
 property :reload, kind_of: [TrueClass, FalseClass], default: true
-property :rootonly, kind_of: [TrueClass, FalseClass], default: false
 
 default_action :create
 
@@ -47,27 +46,43 @@ action :create do
     action :nothing
   end
 
-  file "#{new_resource.path}/#{new_resource.name}_outputs.conf" do
-    content TomlRB.dump('outputs' => new_resource.outputs)
-    unless platform_family? 'windows'
-      user 'root'
-      group 'telegraf'
-      mode new_resource.rootonly ? '0640' : '0644'
-    end
-    sensitive new_resource.rootonly
+  # to keep the attributes 'simple' the hash is being build here
+  # {
+  #   win_perf_counters: [
+  #     object: [
+  #       'ObjectName' => 'Processor'
+  #       'Instances' => ['*'],
+  #       'Counters' => [
+  #         '% Idle Time',
+  #         '% Interrupt Time',
+  #         '% Privileged Time',
+  #         '% User Time',
+  #         '% Processor Time',
+  #         '% DPC Time',
+  #       ],
+  #       'Measurement' => 'win_cpu',
+  #       'IncludeTotal' => true,
+  #     ]
+  #   ]
+  # }
+
+  perf_counters_objects = { object: [] }
+  new_resource.perf_counters.each do |counter_name, counter_object|
+    perf_counter = { 'ObjectName' => counter_name }
+    perf_counters_objects[:object] << perf_counter.merge(counter_object)
+  end
+
+  win_perf_counters = { win_perf_counters: [] }
+  win_perf_counters[:win_perf_counters] << perf_counters_objects
+
+  file "#{new_resource.path}/#{new_resource.name}_perf_counters.conf" do
+    content TomlRB.dump('inputs' => win_perf_counters)
     notifies :restart, "service[telegraf_#{new_resource.service_name}]", :delayed if new_resource.reload
   end
 end
 
 action :delete do
-  service "telegraf_#{new_resource.service_name}" do
-    service_name 'telegraf'
-    retries 2
-    retry_delay 5
-    action :nothing
-  end
-
-  file "#{new_resource.path}/#{new_resource.name}_outputs.conf" do
+  file "#{new_resource.path}/#{new_resource.name}_perf_counters.conf" do
     action :delete
     notifies :restart, "service[telegraf_#{new_resource.service_name}]", :delayed if new_resource.reload
   end
